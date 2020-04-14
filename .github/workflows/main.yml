@@ -26,7 +26,7 @@ jobs:
 
     # 
     - name: Build PDFs
-      run: pdflatex --output-format=pdf
+      run: pdflatex --output-format=pdf *.tex
     
     - name: Upload PDFs
       uses: actions/upload-artifact@v1
