@@ -22,7 +22,7 @@ jobs:
 
     # 
     - name: Install dependencies
-      run: sudo apt-get install -y texlive-latex-base texlive-science texlive-latex-extra texlive-latex-recommended
+      run: sudo apt-get install -y texlive-latex-base texlive-science texlive-latex-extra texlive-latex-recommended texlive-fonts-extra
 
     # 
     - name: Build PDFs
