@@ -12,6 +12,7 @@
 \usepackage{booktabs}
 \usepackage{xfrac}
 \usepackage{graphicx}
+\usepackage{tabularx}
 
 % Images in the images directory
 \graphicspath{ {./images/} }
@@ -376,5 +377,47 @@ Updated \today\\
 	
 \end{multicols*}
 
+\newpage
+\begin{multicols*}{2}
+	\section{Fourier Transform Properties}
+	\begin{tabularx}{0.5\textwidth}{|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+		\hline
+		& \textbf{Time} & \textbf{Frequency}\\
+		\hline
+		Linearity & $\alpha x(t) +\beta y(t)$ & $\alpha X(\omega) + \beta Y(\omega)$\\
+		\hline
+		Time scaling & $x(\alpha t), \alpha \neq 0$ & $\frac{1}{|\alpha |}X(\frac{\omega}{\alpha})$\\
+		\hline
+		Reflection & $x(-t)$ & $X(-\omega)$\\
+		\hline
+		Parseval's Energy Relation & $E_x = \int_{-\inf}^{\inf} |x(t)|^2 dt$ & $E_x = \frac{1}{2\pi}\int_{-\inf}^{\inf} |X(\omega)|^2 d\omega$\\
+		\hline
+		Duality & $X(t)$ & $2\pi x(-\omega)$\\
+		\hline
+		Time differentiation & $\frac{d^nx(t)}{dt^2}, n\ge 1$, integer & $(j\omega)^nX(\omega)$\\
+		\hline
+		Frequency differentiation & $-jtx(t)$ & $\frac{dX(\omega)}{d\omega}$\\
+		\hline
+		Integration & $\int_{-\inf}^{t}x(t')dt'$ & $\frac{X(\omega)}{j\omega}+\pi X(0)\delta (\omega)$\\
+		\hline
+		Time shifting & $x(t-\alpha)$ & $e^{-j\alpha \omega}X(\omega)$\\
+		\hline
+		Frequency shifting & $e^{j\omega_0 t}x(t)$ & $X(\omega - \omega_0)$\\
+		\hline
+		Modulation & $x(t)cos(\omega _c t)$ & $0.5|X(\omega - \omega _c) + X(\omega + \omega _c)|$\\
+		\hline
+		Periodic signals & $x(t) = \sum X_k e^{jk\omega_0 t}$ & $X(\omega) = \sum 2\pi X_k \delta (\omega - k\omega_0)$\\
+		\hline
+		Symmetry & $x(t)$ real & $|X(\omega)| = |X(-\omega)|$\\
+		& & $\angle X(\omega)= -\angle X(-\omega)$\\
+		\hline
+		Windowing & $x(t)y(t)$ & $\frac{1}{2\pi}[X*Y](\omega)$\\
+		\hline
+		Cosine transform & $x(t)$ even & $X(\omega) = \int_{-\inf}^{\inf} x(t)cos(\omega t)dt$\\
+		\hline
+		Sine transform & $x(t)$ odd & $X(\omega) = -j\int_{-\inf}^{\inf} x(t)sin(\omega t)dt$\\
+		\hline
+	\end{tabularx}
+\end{multicols*}
 
 \end{document}
