@@ -13,6 +13,7 @@
 \usepackage{xfrac}
 \usepackage{graphicx}
 \usepackage{tabularx}
+\usepackage{changepage}
 
 % Images in the images directory
 \graphicspath{ {./images/} }
@@ -50,6 +51,15 @@
 \renewcommand{\dv}[2]{\frac{d#1}{d#2}}
 \DeclareMathOperator{\sinc}{sinc}
 \DeclareMathOperator{\rect}{rect}
+
+\setlist[itemize]{noitemsep, topsep=0pt}
+\newenvironment{tabbed}
+{
+	\vspace{-\parskip}
+	\begin{adjustwidth}{15pt}{}
+	}
+	{\end{adjustwidth}
+}
 
 % -----------------------------------------------------------------------
 
@@ -112,14 +122,14 @@ Zero-Input Response:\\
 \tab Due to the initial conditions as the input is zero.
 
 Convolution:\\
-\tab $\ds y(t) = \int_{-\infty}^{\infty}x(\tau)h(t-\tau)\,d\tau$
+\tab $\ds y(t) = \int_{-\infty}^{\infty}x(\tau)h(t-\tau)\,d\tau = \int_{-\infty}^{\infty}x(t-\tau)h(\tau)\,d\tau$
 
 Causality:\\
 \tab A continuous time system $\mathcal{S}$ is causal if whenever $x(t) = 0$ and there are no initial conditions, $y(t) = 0$ and the output $y(t)$ does not depend on future inputs.
 \\~\\
 Bounded-Input Bounded-Output Stability:\\
-\tab If an input $x(t)$ bounded then the output of an BIBO system is also bounded.\\
-\tab $\ds \int_{-\infty}^{\infty} \abs{h(t)}\,dt < \infty$
+\tab If an input $x(t)$ bounded then the output of a BIBO~stable system is also bounded.\\
+\tab System is BIBO stable $\Leftrightarrow \ds \int_{-\infty}^{\infty} \abs{h(t)}\,dt < \infty$
 
 \section{Laplace Transform}
 $s = \sigma + j\omega$\\
@@ -129,7 +139,8 @@ Eigenfunction Property:\\
 
 One Sided Laplace Transform:\\
 \tab $\ds F(s) = \mathcal{L}[f(t)u(t)] = \int_{0^-}^{\infty}f(t)e^{-st}\,dt$\\
-\tab $\abs{H(s)}$ is greatest when $\omega$ is closest to the poles.
+\tab $\abs{H(s)}$ is greatest when $s$ is closest to the poles. % was omega... s makes more sense
+
 
 \begin{tabular}{ll}  
 	\toprule
@@ -149,8 +160,30 @@ Initial Value Theorem:\\
 Final Value Theorem:\\
 \tab $\ds \lim_{t\rightarrow\infty} f(t) \Leftrightarrow \lim_{s\rightarrow 0} sF(s)$
 
-Bounded-Input Bounded-Output Stability:\\
-\tab If the region of convergence contains the $j\omega$-axis, then the system is BIBO stable.
+BIBO Stability:\\
+\tab If the region of convergence contains the $j\omega$-axis,\\
+\tab then the system is BIBO stable.
+
+ZSR + ZIR Decomposition:\\
+\begin{tabbed}
+	Letting $H(s) = \frac{B(s)}{A(s)}$ and $H_1(s) = \frac{1}{A(s)}$\\
+	$Y_{zs}(s) = H(s)X(s)$ \quad and \quad $Y_{zi}(s) = H_1(s)I(s)$\\
+	where $I(s)$ comes from the initial conditions
+\end{tabbed}
+
+Steady State + Transient Decomposition:\\
+\begin{tabbed}
+	Given the partial fraction expansion of $Y(s)$...\\
+	SS: $\mathcal{L}^{-1}$ of terms of $Y(s)$ for simple poles in jw-axis\\
+	Transient: $\mathcal{L}^{-1}$ of terms of $Y(s)$ for all poles in LHS plane
+\end{tabbed}
+
+2-Sided LT from 1-Sided LT
+\begin{tabbed}
+	For an anti-causal function $C(s)=\mathcal{L}\left[c(-t)u(t)\right]_{(-s)}$\\
+	For a 2-sided function $p(t) = p_{ac}(t) + p_c(t) = p(t)u(-t) + p(t)u(t)$\\
+	$P(t)=\mathcal{L}\left[p_{ac}(-t)u(t)\right]_{(-s)} + \mathcal{L}\left[p_{c}(t)u(t)\right]$
+\end{tabbed}
 
 \section{Fourier Series}
 \tab Fourier analysis in the steady state.
@@ -176,7 +209,7 @@ Trigonometric Fourier Series:\\
 \tab $d_k = \frac{1}{T_0} \int_{t_0}^{t_0 + T_0}x(t)\sin(k\omega_0 t)\,dt$\quad $k$ = 1,2,3$\ldots$\\
 \tab $\Theta_k = -\arctan(d_k/c_k)$
 
-\columnbreak
+
 Fourier Coefficients from Laplace Transform:\\
 \tab If $x_1(t)$ is a single period of $x(t)$, then\\
 \tab $X_k = \frac{1}{T_0}\mathcal{L}[x_1(t)] \big\rvert_{s = jk\omega_0}$
@@ -476,7 +509,15 @@ Updated \today\\
 	\subsection{Observable Canonical Form}
 	\includegraphics[width=0.4\textwidth]{obscanon1}
 	\includegraphics[width=0.3\textwidth]{obscanon2}
+	
+	\subsection{More General State Space Things}
+	\includegraphics[width=0.3\textwidth]{ss-block-diag}
 \end{multicols*}
+\newpage
 
+\begin{multicols*}{3}
+	\section{Additional Fourier Transform Pair Table}
+	\includegraphics[width=0.4\textwidth]{fourierXform-pairs2}
+\end{multicols*}
 
 \end{document}
