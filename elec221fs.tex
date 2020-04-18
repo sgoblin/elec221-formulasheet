@@ -442,9 +442,9 @@ Signal Reconstruction from Sinc Interpolation:\\
     \vspace{0.5em}
     \section{Integrating Factor Method}
     \begin{tabbed}
-        $y'+p(x)y=q(x)$
-	    $I=e^{\int pdx}$
-	    $y=\frac{C + \int qI dx}{I}$
+        $y'+p(x)y=q(x)$\\
+	    $I=\exp \left( \int p\,dx \right)$\\
+	    $\displaystyle y=\frac{C + \int qI\,dx}{I}$\\
     \end{tabbed}
 
     \section{Miscellaneous}
@@ -458,6 +458,18 @@ Signal Reconstruction from Sinc Interpolation:\\
 \end{minipage}
 \end{minipage}
 
+\begin{multicols*}{2}
+	\includegraphics[width=0.36\textwidth]{laplace-properties}
+	\includegraphics[width=0.36\textwidth]{laplace-pairs}
+	\begin{tabular}{|c c|c c|}
+		\hline
+		$t\sin(\omega t)$ & $\frac{2\omega s}{(s^2 + \omega ^2)^2}$ & $t\cos(\omega t)$ & $\frac{s^2 - \omega ^2}{(s^2 + \omega ^2)^2}$\\
+		\hline
+	\end{tabular}
+	\includegraphics[width=0.45\textwidth]{zXform-pairs}
+	\includegraphics[width=0.45\textwidth]{zXform-props}
+
+\end{multicols*}
 \newpage
 \begin{multicols*}{2}
 	\section{Fourier Transform Properties}
@@ -501,42 +513,46 @@ Signal Reconstruction from Sinc Interpolation:\\
 	\end{tabularx}
 
 	\includegraphics[width=0.5\textwidth]{fourierXform-pairs}
-	\includegraphics[width=0.5\textwidth]{fourierSeries-props}
-	\includegraphics[width=0.5\textwidth]{zXform-props}
-	\tab Fourier Transform of a Gaussian\\
-	\tab $\displaystyle e^{-\alpha x^2}$ \quad $\displaystyle \sqrt{\frac{\pi}{\alpha}}e^{-\frac{\omega^2}{4\alpha}}$
+	\includegraphics[width=0.4\textwidth]{fourierSeries-props}
+	\includegraphics[width=0.3\textwidth]{fourierXform-pairs2}
 \end{multicols*}
-\begin{multicols*}{3}
-	\includegraphics[width=0.3\textwidth]{zXform-pairs}
-	\includegraphics[width=0.3\textwidth]{laplace-properties}
-	\includegraphics[width=0.3\textwidth]{laplace-pairs}
-	\begin{tabular}{|c|c|}
-		\hline
-		$t\sin(\omega t)$ & $\frac{2\omega s}{(s^2 + \omega ^2)^2}$\\
-		\hline
-		$t\cos(\omega t)$ & $\frac{s^2 - \omega ^2}{(s^2 + \omega ^2)^2}$\\
-		\hline
-	\end{tabular}
-    \includegraphics[width=0.3\textwidth]{fourierXform-pairs2}
-\end{multicols*}
+
 \newpage
 
-\begin{multicols*}{3}
-	\section{State Space}
-	\includegraphics[width=0.15\textwidth]{ss-gen}\\
+\begin{multicols*}{2}
+    \includegraphics[width=0.5\textwidth]{dtft-props}
+	\includegraphics[width=0.5\textwidth]{dtft-pairs}
+	\includegraphics[width=0.5\textwidth]{dft-props}
+\end{multicols*}
+
+\newpage
+
+\begin{multicols*}{2} \raggedcolumns
+\section{State Space}
+	\includegraphics[width=0.45\textwidth]{ss-block-diag}\\
+	\includegraphics[width=0.35\textwidth]{ss-gen}\\
+	\vspace{1em}
+
 	\includegraphics[width=0.3\textwidth]{ctr1}\\
 	\includegraphics[width=0.3\textwidth]{obs1}
-	\subsection{Similarity Transformation}
-	Consider $\boldsymbol{\tilde{x}}(x) = T\boldsymbol{x}(t)$
-	\[\boldsymbol{\dot{\tilde{x}}} = TA\boldsymbol{x}(t)+TB\boldsymbol{u}(t) = TAT^{-1}\boldsymbol{\tilde{x}}(t) + TB\boldsymbol{u}(t) = \tilde{A}\boldsymbol{\tilde{x}}(t) + \tilde{B}\boldsymbol{u}(t)\]
-	\[\boldsymbol{y}(t) = CT^{-1}\boldsymbol{\tilde{x}}(t)+D\boldsymbol{u}(t)\]
-	\[[A,B,C,D] \rightarrow [\tilde{A} = TAT^{-1},\tilde{B} = TB, \tilde{C} = CT^{-1},\tilde{D} = D]\]
-	\subsection{Controllable Canonical Form}
-	\includegraphics[width=0.4\textwidth]{sscanon1}
-	\includegraphics[width=0.3\textwidth]{sscanon2}
-	\subsection{Observable Canonical Form}
-	\includegraphics[width=0.4\textwidth]{obscanon1}
-	\includegraphics[width=0.3\textwidth]{obscanon2}
+	\vspace{0.5em}
+
+\subsection{Similarity Transformation}
+    \begin{tabbed}
+        Consider $\boldsymbol{\tilde{x}}(x) = T\boldsymbol{x}(t)$\\
+    	$\boldsymbol{\dot{\tilde{x}}} = TA\boldsymbol{x}(t)+TB\boldsymbol{u}(t) = TAT^{-1}\boldsymbol{\tilde{x}}(t) + TB\boldsymbol{u}(t) = \tilde{A}\boldsymbol{\tilde{x}}(t) + \tilde{B}\boldsymbol{u}(t)$\\
+    	$\boldsymbol{y}(t) = CT^{-1}\boldsymbol{\tilde{x}}(t)+D\boldsymbol{u}(t)$\\
+    	$[A,B,C,D] \rightarrow [\tilde{A} = TAT^{-1},\tilde{B} = TB, \tilde{C} = CT^{-1},\tilde{D} = D]$\\
+    \end{tabbed}
+\subsection{Controllable Canonical Form}
+	\includegraphics[width=0.4\textwidth]{sscanon2}\\
+\subsection{Observable Canonical Form}
+	\includegraphics[width=0.35\textwidth]{obscanon2}\\
+
+\subsection{Controllable Canonical Form}
+	\includegraphics[width=0.45\textwidth]{sscanon1}\\
+\subsection{Observable Canonical Form}
+	\includegraphics[width=0.45\textwidth]{obscanon1}\\
 \end{multicols*}
 
 
