@@ -13,13 +13,14 @@
 \usepackage{xfrac}
 \usepackage{graphicx}
 \usepackage{tabularx}
+\usepackage{changepage}
 
 % Images in the images directory
 \graphicspath{ {./images/} }
 
 % Turn off header and footer
 \pagestyle{empty}
- 
+
 
 % Redefine section commands to use less space
 \makeatletter
@@ -51,6 +52,13 @@
 \DeclareMathOperator{\sinc}{sinc}
 \DeclareMathOperator{\rect}{rect}
 
+\setlist[itemize]{noitemsep, topsep=0pt}
+\newenvironment{tabbed}
+{
+\vspace{-\parskip}
+\begin{adjustwidth}{15pt}{}
+}
+{\end{adjustwidth}}
 % -----------------------------------------------------------------------
 
 \begin{document}
@@ -69,35 +77,37 @@
 \setlength{\columnsep}{2pt}
 
 \begin{center}
-	\Large{\underline{ELEC 221 Formula Sheet}}\\
+	\Large{\underline{ELEC 221 FORMULA SHEET}}\\
 	\small{From Ryan M. and Donney F.}
 \end{center}
 
 \section{Continuous Time Signals}
 
 Even and Odd Components:\\
-\tab $\ds x_e(t) = \frac{1}{2}[x(t) + x(-t)]$\\
-\tab $\ds x_o(t) = \frac{1}{2}[x(t) - x(-t)]$
+\tab $\ds x_e(t) = \frac{1}{2}[x(t) + x(-t)]$, \quad $x_e(t)=x_e(-t)$\\
+\tab $\ds x_o(t) = \frac{1}{2}[x(t) - x(-t)]$, \quad $x_o(t)=-x_o(-t)$
 
-A signal is periodic with fundamental period $T_0$ if\\
-\tab $x(t + kT_0) = x(t) \quad \forall t \in (-\infty, \infty)$
+A signal is periodic with period $T_0$ if\\
+\tab $x(t + kT_0) = x(t) \quad \forall t \in (-\infty, \infty)$\\
+\tab The \textit{fundamental} period is the \textit{smallest} possible $T_0 > 0$
 
 Energy:\\
 \tab $\ds E = \int_{-\infty}^{\infty} \abs{x(t)}^2\,dt$\\
 \tab Energy of a sinusoid is always infinite\\
 Power:\\
-\tab $\ds P = \lim_{T \rightarrow \infty} \frac{1}{2T} \int_{-T}^{T}\abs{x(t)}^2\,dt$
+\tab $\ds P = \lim_{T \rightarrow \infty} \frac{1}{2T} \int_{-T}^{T}\abs{x(t)}^2\,dt$\\
+\tab If $P\neq0$, then $E=\infty$
 
 Causality:\\
 \begin{itemize}
-	\itemsep0em
 	\item Causal: $x(t) = 0$ for $t < 0$.
 	\item Anti-Causal: $x(t) = 0$ for $t \geq 0$.
-	\item A-Causal or Non-Causal: Both of the above.
+	\item A-Causal or Non-Causal: Neither of the above.
 \end{itemize}
 
 \section{Continuous Time Systems}
-Dynamic systems have memory. Active systems can deliver energy to the outside world.
+\tab Dynamic systems have memory.\\
+\tab Active systems can deliver energy to the outside world.
 \\
 Linearity:\\
 \tab $\mathcal{S}[\alpha x(t) + \beta y(t)] = \alpha\mathcal{S}[x(t)] + \beta\mathcal{S}[y(t)]$
@@ -105,33 +115,37 @@ Linearity:\\
 Time Invariance:\\
 \tab If $\mathcal{S}[x(t)] = y(t)$ then $\mathcal{S}[x(t \pm \tau)] = y(t \pm \tau)$.
 
-Zero-State Response:\\
+Zero-State Response (ZSR):\\
 \tab Due to the input as the initial conditions are zero.
 
-Zero-Input Response:\\
+Zero-Input Response (ZIR):\\
 \tab Due to the initial conditions as the input is zero.
 
 Convolution:\\
-\tab $\ds y(t) = \int_{-\infty}^{\infty}x(\tau)h(t-\tau)\,d\tau$
+\tab $\ds y(t) = \int_{-\infty}^{\infty}x(\tau)h(t-\tau)\,d\tau = \int_{-\infty}^{\infty}x(t-\tau)h(\tau)\,d\tau$
 
 Causality:\\
-\tab A continuous time system $\mathcal{S}$ is causal if whenever $x(t) = 0$ and there are no initial conditions, $y(t) = 0$ and the output $y(t)$ does not depend on future inputs.
-\\~\\
+\begin{tabbed}
+A continuous time system $\mathcal{S}$ is causal if whenever $x(t) = 0$ and there are no initial conditions, $y(t) = 0$ and the output $y(t)$ does not depend on future inputs.
+\end{tabbed}
+
 Bounded-Input Bounded-Output Stability:\\
-\tab If an input $x(t)$ bounded then the output of an BIBO system is also bounded.\\
-\tab $\ds \int_{-\infty}^{\infty} \abs{h(t)}\,dt < \infty$
+\begin{tabbed}
+If an input $x(t)$ bounded then the output of a BIBO~stable system is also bounded.
+\end{tabbed}
+\tab System is BIBO stable $\Leftrightarrow \ds \int_{-\infty}^{\infty} \abs{h(t)}\,dt < \infty$
 
 \section{Laplace Transform}
-$s = \sigma + j\omega$\\
+$s = \sigma + j\omega$ \quad $\sigma = $ "Damping Factor", $\omega = $ "Frequency"\\
 
 Eigenfunction Property:\\
 \tab $\mathcal{S}[e^{s_0t}] = H(s_0)e^{s_0t}$
 
 One Sided Laplace Transform:\\
 \tab $\ds F(s) = \mathcal{L}[f(t)u(t)] = \int_{0^-}^{\infty}f(t)e^{-st}\,dt$\\
-\tab $\abs{H(s)}$ is greatest when $\omega$ is closest to the poles.
+\tab $\abs{H(s)}$ is greatest when $s$ is closest to the poles. % was omega... s makes more sense
 
-\begin{tabular}{ll}  
+\begin{tabular}{ll}
 	\toprule
 	Signal Support & ROC\\
 	\midrule
@@ -149,15 +163,33 @@ Initial Value Theorem:\\
 Final Value Theorem:\\
 \tab $\ds \lim_{t\rightarrow\infty} f(t) \Leftrightarrow \lim_{s\rightarrow 0} sF(s)$
 
-Bounded-Input Bounded-Output Stability:\\
-\tab If the region of convergence contains the $j\omega$-axis, then the system is BIBO stable.
+BIBO Stability:\\
+\tab If the region of convergence contains the $j\omega$-axis,\\
+\tab then the system is BIBO stable.
+
+ZSR + ZIR Decomposition:\\
+\begin{tabbed}
+Letting $H(s) = \frac{B(s)}{A(s)}$ and $H_1(s) = \frac{1}{A(s)}$\\
+$Y_{zs}(s) = H(s)X(s)$ \quad and \quad $Y_{zi}(s) = H_1(s)I(s)$\\
+where $I(s)$ comes from the initial conditions
+\end{tabbed}
+
+Steady State + Transient Decomposition:\\
+\begin{tabbed}
+Given the partial fraction expansion of $Y(s)$...\\
+SS: $\mathcal{L}^{-1}$ of terms of $Y(s)$ for simple poles in jw-axis\\
+Transient: $\mathcal{L}^{-1}$ of terms of $Y(s)$ for all poles in LHS plane
+\end{tabbed}
+
+2-Sided LT from 1-Sided LT
+\begin{tabbed}
+For an anti-causal function $C(s)=\mathcal{L}\left[c(-t)u(t)\right]_{(-s)}$\\
+For a 2-sided function $p(t) = p_{ac}(t) + p_c(t) = p(t)u(-t) + p(t)u(t)$\\
+$P(t)=\mathcal{L}\left[p_{ac}(-t)u(t)\right]_{(-s)} + \mathcal{L}\left[p_{c}(t)u(t)\right]$
+\end{tabbed}
 
 \section{Fourier Series}
 \tab Fourier analysis in the steady state.
-
-Eigenfunction Property:\\
-\tab $\mathcal{S}[e^{j\omega_0t}] = H(j\omega_0)e^{j\omega_0t}$\\
-\tab $x(t) = \sum_k X_k e^{j\omega_kt} \implies y(t) = \sum_k X_k H(j\omega_k)e^{j\omega_kt}$\\\vspace{1mm}\hspace{2.5cm}$= \sum_k X_k \abs{H(j\omega_k)}e^{j(\omega_kt + \angle H(\omega_k))}$
 
 Fourier Series Coefficients (for any $t_0$):\\
 \tab $\ds X_k = \frac{1}{T_0}\int_{t_0}^{t_0 + T_0}x(t)e^{-jk\omega_0t}\,dt$
@@ -165,6 +197,7 @@ Fourier Series Coefficients (for any $t_0$):\\
 Parseval's Power Relation (for any $t_0$):\\
 \tab $\ds P = \frac{1}{T_0} \int_{t_0}^{t_0 + T_0}\abs{x(t)}^2\,dt = \sum_{k = -\infty}^{\infty}\abs{X_k}^2$
 
+\columnbreak
 Symmetry of Line Spectra:\\
 \tab $\abs{X_k} = \abs{X_{-k}}$\\
 \tab $\angle X_k = -\angle X_{-k}$
@@ -172,21 +205,30 @@ Symmetry of Line Spectra:\\
 Trigonometric Fourier Series:\\
 \tab $x(t) = X_0 + 2\sum_{k = 1}^{\infty}\abs{X_k}\cos(k\omega t + \Theta_k)$\\
 \tab $x(t) = c_0 + 2\sum_{k = 1}^{\infty}[c_k\cos(k\omega_0 t) + d_k\sin(k\omega_0 t)]$\\
+\tab where\\
 \tab $c_k = \frac{1}{T_0} \int_{t_0}^{t_0 + T_0}x(t)\cos(k\omega_0 t)\,dt$ \quad $k$ = 0,1,2$\ldots$\\
 \tab $d_k = \frac{1}{T_0} \int_{t_0}^{t_0 + T_0}x(t)\sin(k\omega_0 t)\,dt$\quad $k$ = 1,2,3$\ldots$\\
-\tab $\Theta_k = -\arctan(d_k/c_k)$
+\tab $X_k = \sqrt{{c_k}^2 + {d_k}^2}$, \quad $\Theta_k = -\arctan(d_k/c_k)$
 
-\columnbreak
+Eigenfunction Property:\\
+\tab $\mathcal{S}[e^{j\omega_0t}] = H(j\omega_0)e^{j\omega_0t}$\\
+\tab $x(t) = \sum_k X_k e^{j\omega_kt} \implies y(t) = \sum_k X_k H(j\omega_k)e^{j\omega_kt}$\\\vspace{1mm}\hspace{2.5cm}$= \sum_k X_k \abs{H(j\omega_k)}e^{j(\omega_kt + \angle H(\omega_k))}$
+
 Fourier Coefficients from Laplace Transform:\\
-\tab If $x_1(t)$ is a single period of $x(t)$, then\\
-\tab $X_k = \frac{1}{T_0}\mathcal{L}[x_1(t)] \big\rvert_{s = jk\omega_0}$
+\begin{tabbed}
+If $x_1(t)$ is a single period of $x(t)$, then
+$X_k = \frac{1}{T_0}\mathcal{L}[x_1(t)] \big\rvert_{s = jk\omega_0}$
+\end{tabbed}
 
 Response of LTI Systems to Periodic Signals:\\
-\tab If the input to an LTI system has Fourier Series $x(t) = X_0 + 2\sum_{k=1}^{\infty}\abs{X_k}\cos(k\omega t + \angle X_k)$, then the steady state response is $\ds y(t) = X_0\abs{H(j0)} + 2\sum_{k=1}^{\infty}\abs{X_k}\abs{H(jk\omega_0)}\cos(k\omega_0 t + \angle X_k + \angle H(jk\omega_0))$
+\begin{tabbed}
+If the input to an LTI system has Fourier Series $x(t) = X_0 + 2\sum_{k=1}^{\infty}\abs{X_k}\cos(k\omega t + \angle X_k)$, then the steady state response is $\ds y(t) = \displaystyle X_0\abs{H(j0)} + 2\sum_{k=1}^{\infty}\abs{X_k}\abs{H(jk\omega_0)}\cos(k\omega_0 t + \angle X_k + \angle H(jk\omega_0))$
+\end{tabbed}
 
 \section{Fourier Transform}
-\tab $X(\omega) = \int_{-\infty}^{\infty}x(t)e^{-j\omega t}\,dt$\\
-\tab $x(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty}X(\omega)e^{j\omega t}\,d\omega$
+\tab $X(\omega) = \mathcal{F}\left[x(t)\right] = \int_{-\infty}^{\infty}x(t)e^{-j\omega t}\,dt$\\
+\vspace{5pt}
+\tab $x(t) = \mathcal{F}^{-1}\left[x(t)\right] = \frac{1}{2\pi}\int_{-\infty}^{\infty}X(\omega)e^{j\omega t}\,d\omega$
 
 Fourier Transform from Laplace Transform (if $X(s)$ contains the $j\omega$-axis):\\
 \tab $\mathcal{F}[x(t)] = \mathcal{L}[x(t)]\big\rvert_{s = j\omega} = X(s)\big\rvert_{s = j\omega}$
@@ -203,31 +245,7 @@ Symmetry of Spectral Representations:\\
 \tab $\angle X(\omega) = -\angle X(-\omega)$\\
 \tab $\Im[X(\omega)] = -\Im[X(-\omega)]$
 
-\section{Sampling Theory}
-\tab $x_s(t) = x(nT_s) = x(t)\rvert_{t = nT_s} = x(t)\sum_n \delta(t - nT_s)$\\
-\tab $\ds X_s(\omega) = \frac{1}{T_s} \sum_{k=-\infty}^{\infty}X(\omega - k\omega_s)$
-
-Nyquist-Shannon Sampling Rate:\\
-\tab $\omega_s = \frac{2\pi}{T_s} \geq 2\omega_\text{max}$\\
-\tab Aliasing occurs if $\omega_s < 2\omega_\text{max}$.
-
-Reconstruction $X(\omega)=X_s(\omega)H_\text{lp}(\omega)$:
-\vspace{-1em}
-\begin{equation*}
-\hspace{-8em}
-H_{\text{lp}}(\omega) =
-\begin{cases}
-T_s & \ds -\frac{\omega_s}{2} \leq \omega \leq \frac{\omega_s}{2}\\
-0 & \text{otherwise}
-\end{cases}
-\end{equation*}
-\tab (Inclusive bounds. If represented by a unit step function the bounds are inclusive for filters (Refer to lecture notes))
-
-Signal Reconstruction from Sinc Interpolation:\\
-\tab $\ds x_r(t) = \sum_{n=-\infty}^{\infty} x(nT_s) \frac{\sin(\pi(t-nT_s)/T_s)}{\pi(t-nT_s)/T_s}$
 \end{multicols*}
-
-\newpage
 
 \begin{minipage}[t]{0.27\textwidth}
 \section{Discrete Time Signals}
@@ -238,7 +256,8 @@ Periodicity:\\
 \tabm $x[n + kN] = x[n]$ \qquad $\forall k\in \mathbb{Z}$
 
 When sampling an analog sinusoid of fundamental period $T_0$, we obtain a periodic discrete sinusoid provided that $m$, $N$ not divisible by each-other:\\
-\tabm $T_s/T_0 = m/N$
+\tabm $T_s/T_0 = m/N$\\
+\tabm For $x[n] = \sin{(\Omega_0n)}$, \quad $\Omega_0 = 2\pi m / N$
 
 Aliasing occurs if:\\
 \tabm $T_s > T_0/2$
@@ -249,8 +268,8 @@ Energy:\\
 Power:\\
 \tabm $\ds P_x = \lim_{N \rightarrow \infty}\frac{1}{2N + 1}\sum_{n= -N}^{N}\abs{x[n]}^2$
 
-Convolutional Sum:\\\
-\tabm $\ds y[n] = \sum_{k = -\infty}^{\infty} x[k]h[n-k]$
+Convolution Sum:\\\
+\tabm $\ds y[n] = \sum_{k = -\infty}^{\infty} x[k]h[n-k] = \sum_{k = -\infty}^{\infty} x[n-k]h[k]$
 
 Bounded-Input Bounded-Output Stability:\\
 \tabm $\sum_k \abs{h[n]} < \infty$
@@ -272,23 +291,19 @@ Final Value Theorem:\\
 \tabm $\ds \lim_{n\rightarrow \infty}x[n] = \lim_{z\rightarrow 1}(z-1)X(z)$
 
 BIBO Stability:\\
-\tabm If the ROC contains radius $z=1$, then the system is BIBO stable.
-
-\section{Misc. Identities}
-\tabm $\ds \sum_{k=0}^{n}x^k = \frac{1-x^{n+1}}{1-x} \quad\xrightarrow{n\rightarrow\infty \text{ and } x < 1}\quad \frac{1}{1-x}$\\
-\tabm $\ds \cos\theta = \frac{e^{j\theta}+e^{-j\theta}}{2}$\\
-\tabm $\ds \sin\theta = \frac{e^{j\theta}-e^{-j\theta}}{2j}$
+\tabm If the ROC contains radius $z=1$,\\
+\tabm then the system is BIBO stable.
 
 % Footer content
 \rule{0.3\linewidth}{0.25pt}
 \scriptsize\\
 Updated \today\\
-\href{https://github.com/sgoblin/elec221-formulasheet}{https://github.com/sgoblin/elec221-formulasheet}
-\end{minipage}%
+\href{https://github.com/a2k-hanlon/elec221-formulasheet}{https://github.com/a2k-hanlon/elec221-formulasheet}
+\end{minipage}
 \hspace{0.5em}
 \begin{minipage}[t]{0.35\textwidth}
 \subsection{Partial Fraction Decomposition}
-\begin{tabular}{lll}  
+\begin{tabular}{lll}
 	\toprule
 	Fraction & Partial Fraction & Solution\\
 	\midrule\vspace{1mm}
@@ -301,7 +316,7 @@ Updated \today\\
 \end{tabular}
 \vspace{0.5em}
 \subsection{Two-Sided Z-Transforms}
-\begin{tabular}{lll}  
+\begin{tabular}{lll}
 	\toprule
 	$f[n]$ & $F(z)$ & ROC\\
 	\midrule\vspace{1mm}
@@ -312,36 +327,62 @@ Updated \today\\
 	\bottomrule
 \end{tabular}
 \vspace{0.5em}
-\subsection{Interconnection of LTI Systems}
-\begin{tabular}{lll}  
-	\toprule
-	Connection & Time & Laplace/Z\\
-	\midrule\vspace{1mm}
-	Series & $[h_1 * h_2](t)$ & $H_1(s)H_2(s)$\\
-	Parallel & $h_1(t) + h_2(t)$ & $H_1(s) + H_2(s)$\\
-	\bottomrule
-\end{tabular}
 
-\subsection{Misc. More}
+\subsection{Sampling Theory}
+\tabm $x_s[n] = x(nT_s) = x(t)\rvert_{t = nT_s} %= x(t)\sum_n \delta(t - nT_s)$
+$\\
+\tabm $\ds X_s(\omega) = \frac{1}{T_s} \sum_{k=-\infty}^{\infty}X(\omega - k\omega_s)$
 
-\[\int_{-\infty}^{\infty} e^{-a(x+b)^2} dx = \sqrt{\frac{\pi}{a}}\]
+Nyquist-Shannon Sampling Rate:\\
+\tabm $\displaystyle \omega_s = \frac{2\pi}{T_s} \geq 2\omega_\text{max}$\\
+\tabm Aliasing occurs if $\omega_s < 2\omega_\text{max}$.
 
+Reconstruction $X(\omega)=X_s(\omega)H_\text{lp}(\omega)$:
+\vspace{-1em}
+\begin{equation*}
+\hspace{-8em}
+H_{\text{lp}}(\omega) =
+\begin{cases}
+T_s & \ds -\frac{\omega_s}{2} \leq \omega \leq \frac{\omega_s}{2}\\
+0 & \text{otherwise}
+\end{cases}
+\end{equation*}
+\vspace{-10pt}
+\begin{tabbed}
+(Inclusive bounds. If represented by a unit step function, the bounds are inclusive for filters) % Refer to lecture notes
+\end{tabbed}
+
+Signal Reconstruction from Sinc Interpolation:\\
+\tab $\ds x_r(t) = \sum_{n=-\infty}^{\infty} x(nT_s) \frac{\sin(\pi(t-nT_s)/T_s)}{\pi(t-nT_s)/T_s}$
+\vspace{0.5em}
 
 \end{minipage}
 \begin{minipage}[t]{0.30\textwidth}
 	\vspace{18em}
+
+	\subsection{Interconnection of LTI Systems}
+    \begin{tabular}{lll}
+	    \toprule
+	    Connection & Time & Laplace/Z\\
+	    \midrule\vspace{1mm}
+	    Series & $[h_1 * h_2](t)$ & $H_1(s)H_2(s)$\\
+	    Parallel & $h_1(t) + h_2(t)$ & $H_1(s) + H_2(s)$\\
+	    Feedback (is $h_2$) & $\left[ h_1 - h*h_1*h_2 \right](t)$ & $\displaystyle \frac{H_1(s)}{1+H_1(s)H_2(s)}$\\
+	    \bottomrule
+    \end{tabular}
+
 	\subsection{Finding Magnitudes}
 	\tabm If $\ds H(s) = \frac{N(s)}{D(s)}$, then $\ds \abs{H(s)} = \frac{\abs{N(s)}}{\abs{D(s)}} = \frac{\sqrt{(N(s))^2}}{\sqrt{(D(s))^2}}$\\
 	and $\angle H(s) = \angle N(s) - \angle D(s)$
-	
+
 	Complex Valued:\\
 	\tabm $\abs{H(s)}^2 = H(s)H(s)^*$
-	
+
 	\subsection{Long Division For Z-Transform Inverse}
 	Let $X(z) = B(z)/A(z)$ be a rational Z-Transform of a causal signal $x[n]$. We can then express $X(z)$ as
 	$$X(z) = x[0] + x[1]z^{-1} + x[2]z^{-2} + \cdots$$
 	by dividing $B(z)$ by $A(z)$. To perform the long division, we let $X(z)$ be the series of $z^{-n}$ as above, and multiply both sides throiugh by $A(z)$ to obtain $A(z)X(z) = B(z)$. We then compare the coefficients in front of $z^{-n}$ of both sides to obtain values for the sequence $\{x[0], x[1], x[2], x[3], \ldots\}$. Then the inverse can be taken by inspection.
-	
+
 	\subsection{Fourier Transform of a Periodic Signal}
 	Suppose $x(t)$ is periodic of period $T_0$. Let $x_p(t)$ be a single period of $x(t)$. Then $x(t) = \sum_k x_p(t - kT_0)$ and we can find $X(\omega)$ by using time shifting property and finding the Fourier Transform of $x_p(t)$ by using Laplace.
 \end{minipage}
@@ -355,12 +396,12 @@ Updated \today\\
 	\setlength{\postmulticols}{1pt}
 	\setlength{\multicolsep}{1pt}
 	\setlength{\columnsep}{2pt}
-	
+
 	\section{Periodicity}
 	Sum or product of periodic functions with periods $T_1$ and $T_2$ is periodic iff $\frac{T_1}{T_2} = \frac{n_1}{n_2}$ where $n_1$ and $n_2$ are integers.\\
 	Period of sum/product:\\
 	\tab LCM($T_1$,$T_2$)\\
-	
+
 	\section{Trigonometric Identities}
 	\[1+tan^2\theta=sec^2\theta\]
 	\[1+cot^2\theta = csc^2\theta\]
@@ -370,23 +411,30 @@ Updated \today\\
 	\[cos(2\theta)=cos^2\theta - sin^2\theta = 2cos^2\theta - 1 = 1-2sin^2\theta\]
 	\[tan(2\theta)=\frac{2tan(\theta)}{1-tan^2(\theta)}\]
 	\[cos(\theta)=sin(\theta +\frac{\pi}{2})\]
-	
+
 	\section{Unit Circle}
 	\includegraphics[width=0.3\textwidth]{Unit_circle_angles}
-	
+
 	\section{Indefinite Integrals}
 	Taken from the ELEC 211 formula sheet\\
 	\includegraphics[width=0.6\textwidth]{indef-integrals}
-	
+
 	\section{Integrating Factor Method}
 	\[y'+p(x)y=q(x)\]
 	\[I=e^{\int pdx}\]
 	\[y=\frac{C + \int qI dx}{I}\]
-	
+
 	\section{Second Order Trial Particular Solutions}
 	\includegraphics[width=0.5\textwidth]{trialparticular}
-	
-	
+
+    \section{Miscellaneous}
+    Gaussian Integral\\
+    \tab $\displaystyle \int_{-\infty}^{\infty} e^{-a(x+b)^2} dx = \sqrt{\frac{\pi}{a}}$\\
+    Geometric Series\\
+    \tab $\ds \sum_{k=0}^{n}x^k = \frac{1-x^{n+1}}{1-x} \quad\xrightarrow{n\rightarrow\infty \text{ and } x < 1}\quad \frac{1}{1-x}$\\
+    Complex Exponential Representations of Sine and Cosine\\
+    \tab $\ds \cos\theta = \frac{e^{j\theta}+e^{-j\theta}}{2}$\\
+    \tab $\ds \sin\theta = \frac{e^{j\theta}-e^{-j\theta}}{2j}$\\
 \end{multicols*}
 
 \newpage
@@ -430,10 +478,12 @@ Updated \today\\
 		Sine transform & $x(t)$ odd & $X(\omega) = -j\int_{-\inf}^{\inf} x(t)sin(\omega t)dt$\\
 		\hline
 	\end{tabularx}
-	
+
 	\includegraphics[width=0.5\textwidth]{fourierXform-pairs}
 	\includegraphics[width=0.5\textwidth]{fourierSeries-props}
 	\includegraphics[width=0.5\textwidth]{zXform-props}
+	\tab Fourier Transform of a Gaussian\\
+	\tab $\displaystyle e^{-\alpha x^2}$ \quad $\displaystyle \sqrt{\frac{\pi}{\alpha}}e^{-\frac{\omega^2}{4\alpha}}$
 \end{multicols*}
 \begin{multicols*}{3}
 	\includegraphics[width=0.3\textwidth]{zXform-pairs}
