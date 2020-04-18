@@ -422,6 +422,44 @@ Updated \today\\
 		Sine transform & $x(t)$ odd & $X(\omega) = -j\int_{-\inf}^{\inf} x(t)sin(\omega t)dt$\\
 		\hline
 	\end{tabularx}
+	
+	\includegraphics[width=0.5\textwidth]{fourierXform-pairs}
+	\includegraphics[width=0.5\textwidth]{fourierSeries-props}
+	\includegraphics[width=0.5\textwidth]{zXform-props}
 \end{multicols*}
+\begin{multicols*}{3}
+	\includegraphics[width=0.3\textwidth]{zXform-pairs}
+	\includegraphics[width=0.3\textwidth]{laplace-properties}
+	\includegraphics[width=0.3\textwidth]{laplace-pairs}
+	\begin{tabular}{|c|c|}
+		\hline
+		$t\sin(\omega t)$ & $\frac{2\omega s}{(s^2 + \omega ^2)^2}$\\
+		\hline
+		$t\cos(\omega t)$ & $\frac{s^2 - \omega ^2}{(s^2 + \omega ^2)^2}$\\
+		\hline
+	\end{tabular}
+\end{multicols*}
+\newpage
+
+\begin{multicols*}{3}
+	\section{State Space}
+	\includegraphics[width=0.15\textwidth]{ss-gen}\\
+	\includegraphics[width=0.3\textwidth]{ctr1}\\
+	\includegraphics[width=0.3\textwidth]{obs1}
+	\subsection{Similarity Transformation}
+	Consider $\boldsymbol{\tilde{x}}(x) = T\boldsymbol{x}(t)$
+	\[\boldsymbol{\dot{\tilde{x}}} = TA\boldsymbol{x}(t)+TB\boldsymbol{u}(t) = TAT^{-1}\boldsymbol{\tilde{x}}(t) + TB\boldsymbol{u}(t) = \tilde{A}\boldsymbol{\tilde{x}}(t) + \tilde{B}\boldsymbol{u}(t)\]
+	\[\boldsymbol{y}(t) = CT^{-1}\boldsymbol{\tilde{x}}(t)+D\boldsymbol{u}(t)\]
+	\[[A,B,C,D] \rightarrow [\tilde{A} = TAT^{-1},\tilde{B} = TB, \tilde{C} = CT^{-1},\tilde{D} = D]\]
+	\subsection{Canonical Forms}
+	\subsubsection{Controllable}
+	\includegraphics[width=0.4\textwidth]{sscanon1}
+	\includegraphics[width=0.3\textwidth]{sscanon2}
+	\subsubsection{Observable}
+	\subsubsec
+	\includegraphics[width=0.4\textwidth]{obscanon1}
+	\includegraphics[width=0.3\textwidth]{obscanon2}
+\end{multicols*}
+
 
 \end{document}
