@@ -446,6 +446,17 @@ Updated \today\\
 		$t\cos(\omega t)$ & $\frac{s^2 - \omega ^2}{(s^2 + \omega ^2)^2}$\\
 		\hline
 	\end{tabular}
+	
+	\section{Discrete-Time Fourier Transform}
+	\[X_{DTFT} (\Omega ) = \sum_{n=-\infty}^{\infty} x[n] e^{-j\Omega n}\]
+	\[x[n] = \frac{1}{2\pi} \int_{-\pi}^{\pi} X_{DTFT} (\Omega )e^{j\Omega n} d\Omega \]
+	\includegraphics[width=0.3\textwidth]{dtft}
+	
+	\section{Discrete Fourier Transform}
+	Where $N$ is the period, $\Omega_0 = \frac{2\pi}{N}$:
+	\[X_{DFT} [k] = \sum_{n=0}^{N-1} x[n]e^{-jk\Omega _0 n}\]
+	\[x[n] = \frac{1}{N} \sum_{k=0}^{N-1} X_{DFT} [k] e^{jk\Omega_0 n}\]
+	\includegraphics[width=0.3\textwidth]{dft}
 \end{multicols*}
 \newpage
 
