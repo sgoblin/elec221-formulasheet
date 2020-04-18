@@ -258,6 +258,22 @@ T_s & \ds -\frac{\omega_s}{2} \leq \omega \leq \frac{\omega_s}{2}\\
 
 Signal Reconstruction from Sinc Interpolation:\\
 \tab $\ds x_r(t) = \sum_{n=-\infty}^{\infty} x(nT_s) \frac{\sin(\pi(t-nT_s)/T_s)}{\pi(t-nT_s)/T_s}$
+
+\section{Examples}
+
+\subsection{Sampling Example: WW6 Q5}
+A continuous-time signal $x(t) = 3cos(23\pi t) + 3sin(44\pi t) + 4cos(54\pi t + \frac{\pi}{7}$ is sampled at 44 Hertz. Determine the signal $\omega (t)$ reconstructed using an ideal interpolator with sampling rate $T = \frac{1}{44} s$.
+Answer: $\omega (t) = 3cos(23\pi t) + 4cos(-34\pi t + \frac{pi}{7})$\\
+Explanation: First signal has frequency $\frac{23}{2} Hz$, which is less than Nyquist frequency $22 Hz$. Second signal is at Nyquist frequency but is zero at every sample, so disappears. Third signal is aliased in the following way: $\frac{54}{2} Hz = 27 Hz$ base frequency, subtract $44 Hz$ to get $-17 Hz = -34\pi rad \cdot s^{-1}$.
+
+\subsection{Impulse Train Example: WW2 Q6}
+Find the expression that describes the output of the system $y(t)$ for  $0 < t < 9$ when $q=-5$ and the input is $x(t) = \sum_{k=-\infty}^{\infty} \delta (t-9k)$. Let the LTI system be described by $h(t) = e^{qt}u(t)$ where q is a real number.\\
+Solution: As the impulse train is just sampling the exponential at 0, 9, 18... (found by graphical convolution), we get:
+\[y(t) = \sum_{k=0}^{\infty} e^{q(t+9k)} = e^{qt} \sum_{k=0}^{\infty} e^{9qk} = e^{qt} \sum_{k=0}^{\infty} u^k, u=e^{9q}\]
+As the sum is a geometric series, we use geometric series formula to find:
+\[y(t) = e^{qt} \cdot \frac{1}{1-u} = e^{qt} \cdot \frac{1}{1-e^{9q}}\]
+
+
 \end{multicols*}
 
 \newpage
